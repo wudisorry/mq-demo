@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.arh</groupId>
+    <artifactId>mq-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <!--父层一定是pom-->
+    <packaging>pom</packaging>
+    <name>mq-demo</name>
+    <description>Demo project for MQ</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <rabbitmq.version>5.9.0</rabbitmq.version>
+        <lombok.version>1.18.12</lombok.version>
+        <log4j2.version>2.12.1</log4j2.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <log4j2.slf4j.binding.version>2.12.1</log4j2.slf4j.binding.version>
+    </properties>
+
+    <!--声明引入的依赖-->
+    <dependencyManagement>
+        <dependencies>
+            <!--模块内部间的引用 start-->
+            <dependency>
+                <groupId>com.arh</groupId>
+                <artifactId>model</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <!--模块内部间的引用 end-->
+            <!--因为在spring-boot-starter-parent里已经声明了spring-boot-starter，所以不需要再次声明-->
+            <!--不需要amqp-client 因为spring-boot-starter-amqp依赖了这个jar包-->
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${rabbitmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!--日志相关 start-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.slf4j.binding.version}</version>
+            </dependency>
+            <!--日志相关 end-->
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>message-consumer</module>
+        <module>message-producer</module>
+        <module>model</module>
+    </modules>
+
+</project>
